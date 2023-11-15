@@ -35,11 +35,11 @@ This edge function is added to your supabase project folder and deployed. This f
 #### Add your supaqueue secret to the vault:
 
 1. Go to your project dashboard and go into Settings -> Vault
-2. create a secret called `supabase_secret`
+2. create a secret called `supaqueue_secret`
 
 #### Add your supabaqueue secret to your edge function env variables
 
-1.  in the terminal run `supabase secrets add SUPAQUEUE_SECRET=[YOUR SECRET]` (replace with your secret)
+1.  in the terminal run `supabase secrets set SUPAQUEUE_SECRET=[YOUR SECRET]` (replace with your secret)
 2.  use `supabase secrets list` to verify the secret has successfully been added.
 
 ## Usage

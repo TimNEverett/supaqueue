@@ -1,10 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
-import type {
-  Database,
-  CurrentJob,
-  Job,
-  Queue,
-} from "./_supaqueue/database.types.ts";
+import type { CurrentJob, Job, Queue } from "./_supaqueue/database.aliases.ts";
 
 console.log("Execute Current Job Function is running");
 
@@ -16,7 +11,7 @@ Deno.serve(async (req) => {
       throw new Error("Invalid Supaqueue secret");
     }
 
-    const supabase = createClient<Database>(
+    const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
@@ -27,7 +22,6 @@ Deno.serve(async (req) => {
       queue: Queue;
     };
 
-    // TODO: call and await API call
     let success;
     try {
       let url = queue.api_url;
@@ -58,13 +52,11 @@ Deno.serve(async (req) => {
       success = false;
     }
 
-    const { error } = await supabase
-      .from("current_job")
-      .update({
-        is_complete: true,
-        is_successful: success,
-      })
-      .eq("id", current_job.id);
+    const { error } = await supabase.rpc("end_current_job", {
+      cur_job_id: current_job.id,
+      _is_complete: true,
+      _is_successful: success,
+    });
 
     if (error) {
       throw error;
