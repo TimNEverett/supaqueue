@@ -27,14 +27,14 @@
 
   - should I make different paths? or use if/else in one function call?
 
-- [ ] UPDATE THE `migration.sql` file with changes
-- [ ] update the readme.md file with changes.
+- [x] UPDATE THE `migration.sql` file with changes
+- [x] update the readme.md file with changes.
 
 ## Testing
 
-- [ ] multiple concurrent queues
+- [x] multiple concurrent queues
 - [ ] long running api calls
-- [ ] adding a job to the queue while queue is being processed
+- [x] adding a job to the queue while queue is being processed
 - [ ] adding an API secret to the queue
 - [ ] calling a real edge function.
 
