@@ -6,8 +6,21 @@ This is incredibly useful when orchestration pipelines of processing, or dealing
 
 ### Features
 
-- support for 1-1, many-1, 1-many, or many-many depencies between jobs
+- support for 1-1, many-1, 1-many, or many-many dependencies between jobs.
 - jobs can depend on jobs from any queue.
+
+### Installation
+
+1. Install base supaqueue in your project.
+2. Run `job_dependencies.sql` in your project (via dashboard, psql or migrations)
+
+### Usage
+
+Add the jobs to a queue in supaqueue and delay their execution by setting their status to `null`.
+
+Create dependencies between jobs by adding records to the `supaqueue.job_dependencies` table. When creating dependencies, set the `source` as the id of the job that needs to execute first. Set the `target` as the id of the of the job that needs to wait for the source job to complete.
+
+Lastly, update the status of your jobs to `pending` and call the `supabaqueue.process_jobs()` function to begin processing the jobs.
 
 ### Example: Document Summarization Pipeline
 
