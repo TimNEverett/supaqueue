@@ -1,0 +1,22 @@
+{
+  "name": "supaqueue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "supaqueue:install": "node scripts/linkProject.mjs && node scripts/generateAndSetSecret.mjs && node scripts/getAnonKey.mjs && node scripts/applyMigrations.mjs && node scripts/applySecretMigration.mjs && node scripts/deployFunction.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "chalk": "^5.3.0",
+    "dotenv": "^16.3.1",
+    "inquirer": "^9.2.12",
+    "npm-run-all": "^4.1.5",
+    "ora": "^7.0.1",
+    "pg": "^8.11.3",
+    "supabase": "^1.113.2"
+  }
+}

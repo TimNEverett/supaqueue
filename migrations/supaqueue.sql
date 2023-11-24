@@ -1,5 +1,5 @@
 CREATE SCHEMA IF NOT EXISTS "supaqueue";
-
+CREATE EXTENSION IF NOT EXISTS "pg_net";
 -- when rerunning this script, comment out this create type statement.
 CREATE TYPE "supaqueue"."job_status" AS ENUM (
     'pending',
@@ -168,7 +168,7 @@ BEGIN
 
   headers := json_build_object(
     'Content-Type', 'application/json',
-    'Authorization', 'Bearer [SUPABASE-ANON-KEY]', 
+    'Authorization', 'Bearer [ANON_KEY]', 
     'supaqueue-secret', secret
   );
 
@@ -183,7 +183,7 @@ BEGIN
   );
 
   perform net.http_post(
-    url:='https://[SUPABASE-PROJECT-REF].supabase.co/functions/v1/execute_current_job',
+    url:='https://[PROJECT_REF].supabase.co/functions/v1/supaqueue',
     headers:= headers::jsonb,
     body:= payload::jsonb
   ) as request_id;
