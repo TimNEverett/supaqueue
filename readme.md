@@ -8,6 +8,8 @@ This project consists of:
 
 - the supaqueue schema defined in the `supaqueue.sql` file.
 
+- a supaqueue secret that is added to your project's vault.
+
 - the `supaqueue` supabase edge function
 
 ### The Supaqueue Schema and `Supaqueue.sql` File
@@ -16,13 +18,13 @@ This file adds all tables, functions, triggers and enumerated types to your proj
 
 (Note that the only the postgres, and service_role roles are also granted priveleges to this schema)
 
-### The `execute_current_job` Edge Function
+### The `supaqueue` Edge Function
 
 This edge function is added to your supabase project folder and deployed. This function formats the information from the relevant tables to make an API call defined in the queue. It also updates the status of the current_job table and captures if the api call was successful or not.
 
 ## Installation
 
-#### Install the supaqueue schema:
+#### Instructions
 
 1. Clone the supaqueue repo
 2. Install dependencies
@@ -44,6 +46,15 @@ pnpm supaqueue:install # or yarn supaqueue:install
 ```
 
 - this command will prompt you for your supabase project ref and database password.
+
+5. If successful, you should see in your supabase dashboard:
+
+- a `supaqueue` schema with tables, triggers, functions, and an enumerated type
+- a supabase edge function called `supaqueue`
+- a secret in your vault called `supaqueue_secret`
+- a corresponding secret in your edge Deno env variables called `SUPAQUEUE_SECRET`
+
+#### Explanation
 
 This command will do the following:
 
