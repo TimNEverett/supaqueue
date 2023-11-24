@@ -11,8 +11,12 @@ This is incredibly useful when orchestration pipelines of processing, or dealing
 
 ### Installation
 
-1. Install base supaqueue in your project.
-2. Run `job_dependencies.sql` in your project (via dashboard, psql or migrations)
+1. Install the core supaqueue in your project.
+2. Install the job dependencies
+
+```bash
+  pnpm supaqueue:install:job_dependencies # or yarn supaqueue:install:job_dependencies
+```
 
 ### Usage
 

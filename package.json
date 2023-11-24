@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "supaqueue:install": "node scripts/linkProject.mjs && node scripts/generateAndSetSecret.mjs && node scripts/getAnonKey.mjs && node scripts/applyMigrations.mjs && node scripts/applySecretMigration.mjs && node scripts/deployFunction.mjs"
+    "supaqueue:install": "node scripts/linkProject.mjs && node scripts/generateAndSetSecret.mjs && node scripts/getAnonKey.mjs && node scripts/applyMigrations.mjs && node scripts/applySecretMigration.mjs && node scripts/deployFunction.mjs",
+    "supaqueue:install:job_dependencies": "node scripts/applyJobDependenciesMigration.mjs"
   },
   "keywords": [],
   "author": "",
