@@ -8,7 +8,7 @@ This project consists of:
 
 - the supaqueue schema defined in the `supaqueue.sql` file.
 
-- the `execute_current_job` supabase edge function
+- the `supaqueue` supabase edge function
 
 ### The Supaqueue Schema and `Supaqueue.sql` File
 
@@ -24,34 +24,36 @@ This edge function is added to your supabase project folder and deployed. This f
 
 #### Install the supaqueue schema:
 
-1. Go to migrations/supaqueue.sql.
-2. find the `[PROJECT-REF]` section of the file and replace with your project ref.
-3. find the `[SUPABASE-ANON-KEY]` and replace it with the yoru projects supabase anon key.
-4. run the migration file (via dashboard or psql cmd)
+1. Clone the supaqueue repo
+2. Install dependencies
 
-NOTE: if you need to clean up the supaqueue from your project you can use the following query:
-
-```sql
--- Drop schema (use at your own risk)
-DROP SCHEMA IF EXISTS "supaqueue" CASCADE;
-
-DROP Function end_current_job("cur_job_id" uuid, "_is_complete" boolean, "_is_successful" boolean)
+```bash
+pnpm install # or yarn install
 ```
 
-#### Install the edge function:
+3. login to supabase
 
-1. copy the `execute_current_job` dir into your project's `supabase/functions` dir
-2. in your project root run `supabase functions deploy execute_current_job`
+```bash
+pnpm supabase login # or yarn supabase login
+```
 
-#### Add your supaqueue secret to the vault:
+4. Install supaqueue
 
-1. Go to your project dashboard and go into Settings -> Vault
-2. create a secret called `supaqueue_secret`
+```bash
+pnpm supaqueue:install # or yarn supaqueue:install
+```
 
-#### Add your supabaqueue secret to your edge function env variables
+- this command will prompt you for your supabase project ref and database password.
 
-1.  in the terminal run `supabase secrets set SUPAQUEUE_SECRET=[YOUR SECRET]` (replace with your secret)
-2.  use `supabase secrets list` to verify the secret has successfully been added.
+This command will do the following:
+
+1. Link to your supabase project
+2. Generate a supaqueue_secret
+3. Save the supaqueue_secret to your supabase project's secrets
+4. Retrieve your project's anon key
+5. Update the sql files with your project ref, anon key and apply migrations to your database.
+6. Add the supaqueue_secret to your vault.
+7. Deploy the supaqueue edge function.
 
 ## Usage
 
@@ -92,7 +94,7 @@ By adding more workers to a queue, you are enabling the queue to be processed mo
 
 The current job record joins a worker to a job and tracks the status of the API call, marking it as complete and also tracking if that particular call succeeded or failed.
 
-When a record is inserted into the `current_job` table, it gathers the new record along with the associated job and queue records and sends them as inputs to the `execute_current_job` edge function.
+When a record is inserted into the `current_job` table, it gathers the new record along with the associated job and queue records and sends them as inputs to the `supaqueue` edge function.
 
 Once the edge function marks the current job as complete, the job status is updated, the associated worker is unlocked, and the `current_job` record is deleted.
 
