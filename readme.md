@@ -2,9 +2,22 @@
 
 ## Overview
 
-Supaqueue is a way to add api call queues to any supabase project. This is an especially useful way to have your backend make calls to your supabase edge functions in a controlled manner.
+Supaqueue enables the queueing of edge function calls in your supabase project. The goal is to provide a controlled means of calling edge functions in your supabase backend, giving consistent behaviour.
 
-This project consists of:
+#### Key Features:
+
+- queues (1 per edge function)
+- workers (number of workers determines number of concurrent calls)
+- automatic retries
+- create processing pipelines (using the job dependencies add-on)
+
+#### Supaqueue is incredibly useful when:
+
+- your edge functions rely on 3rd party APIs and risk ratelimiting
+- your edge function workload sizes are hard to predict, or vary greatly based on user actions.
+- you need to run your edge functions in a particular order.
+
+#### This project consists of:
 
 - the supaqueue schema defined in the `supaqueue.sql` file.
 
@@ -122,3 +135,9 @@ TODO: list out all triggers and describe when they fire and their side effects.
 #### Process Flow
 
 TODO: show a process flow chart here.
+
+# Acknowledgements
+
+Big thanks to my brother [scotteverett](https://github.com/scotteverett) for concepting/testing supaqueue with me, and being the first user.
+
+Supaqueue was greatly inspired by [Rodrigo Mansueli's blog](https://blog.mansueli.com/), particularly his post titled [Building a Queue System with Supabase and PostgreSQL](https://mansueli.hashnode.dev/building-a-queue-system-with-supabase-and-postgresql).
