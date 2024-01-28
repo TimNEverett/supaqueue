@@ -1,4 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
+import { createClient } from "supabase";
 import type { CurrentJob, Job, Queue } from "./_supaqueue/database.aliases.ts";
 
 console.log("Execute Current Job Function is running");
@@ -11,9 +11,15 @@ Deno.serve(async (req) => {
       throw new Error("Invalid Supaqueue secret");
     }
 
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!serviceRoleKey) {
+      throw new Error("Invalid Supabase service role key");
+    }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+      serviceRoleKey
     );
 
     const { current_job, job, queue } = (await req.json()) as {
@@ -34,17 +40,14 @@ Deno.serve(async (req) => {
         method: queue.method,
         headers: {
           ...Object(queue.default_headers),
-          Authorization: queue.api_secret,
+          Authorization: `Bearer ${serviceRoleKey}`,
         },
         body: queue.method == "POST" ? JSON.stringify(job.payload) : undefined,
       });
-      const json = await resp.json();
       const status = resp.status;
       console.log(
         "API status",
-        status,
-        "API resp",
-        JSON.stringify(json, null, 2)
+        JSON.stringify({ status, queueId: queue.id, jobId: job.id }, null, 2)
       );
       success = resp.ok;
     } catch (error) {
