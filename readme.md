@@ -33,7 +33,9 @@ Note: that the only the `postgres`, and `service_role` roles are granted privele
 
 ### The `supaqueue` Edge Function
 
-This edge function is added to your supabase project folder and deployed. This function formats the information from the relevant tables to make an edge function call defined in the queue. It also updates the status of the current_job table and captures if the api call was successful or not.
+This edge function is deployed to your project. The function formats the information from the relevant tables to make an edge function call defined in the queue. It also updates the status of the current_job table and captures if the edge function call was successful or not.
+
+NOTE: the `supabase service role key` is by default added as a bearer token when calling your edge function. This means if your edge function uses that token to instantiate a supabase client, it will bypass RLS.
 
 ## Installation
 
