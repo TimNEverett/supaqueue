@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS "supaqueue"."queue" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "api_url" "text" NOT NULL,
-    "api_secret" "uuid",
     "default_headers" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL,
     "method" "text" DEFAULT 'POST'::"text" NOT NULL,
     "name" "text" DEFAULT ''::"text" NOT NULL
@@ -81,9 +80,6 @@ ALTER TABLE ONLY "supaqueue"."current_job"
 
 ALTER TABLE ONLY "supaqueue"."job"
     ADD CONSTRAINT "job_queue_fkey" FOREIGN KEY ("queue") REFERENCES "supaqueue"."queue"("id") ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE ONLY "supaqueue"."queue"
-    ADD CONSTRAINT "queue_api_secret_fkey" FOREIGN KEY ("api_secret") REFERENCES "vault"."secrets"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE ONLY "supaqueue"."worker"
     ADD CONSTRAINT "worker_queue_fkey" FOREIGN KEY ("queue") REFERENCES "supaqueue"."queue"("id") ON UPDATE CASCADE ON DELETE CASCADE;
