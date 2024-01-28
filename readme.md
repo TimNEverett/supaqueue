@@ -6,14 +6,14 @@ Supaqueue enables the queueing of edge function calls in your supabase project. 
 
 #### Key Features:
 
-- queues (1 per edge function)
-- workers (number of workers determines number of concurrent calls)
+- queues (calls to an edge function)
+- workers (number of workers determines number of concurrent calls in a queue)
 - automatic retries
 - create processing pipelines (using the job dependencies add-on)
 
 #### Supaqueue is incredibly useful when:
 
-- your edge functions rely on 3rd party APIs and risk ratelimiting
+- your edge functions rely on 3rd party APIs and you risk ratelimiting
 - your edge function workload sizes are hard to predict, or vary greatly based on user actions.
 - you need to run your edge functions in a particular order.
 
@@ -29,7 +29,7 @@ Supaqueue enables the queueing of edge function calls in your supabase project. 
 
 This file adds all tables, functions, triggers and enumerated types to your project. These entities are all added under the 'supaqueue' schema to keep them isolated. There is also one public postgres function called `end_current_job` that is used by the edge function to mark the job as complete.
 
-(Note that the only the postgres, and service_role roles are also granted priveleges to this schema)
+Note: that the only the postgres, and service_role roles are also granted priveleges to this schema which means by default the supabase fe client cannot interact with supaque directly.
 
 ### The `supaqueue` Edge Function
 

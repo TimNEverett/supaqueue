@@ -1,6 +1,9 @@
 import inquirer from "inquirer";
 import { exec } from "child_process";
 import fs from "fs/promises";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Function to prompt the user for the project reference and database password
 async function promptForProjectDetails() {
@@ -9,12 +12,14 @@ async function promptForProjectDetails() {
       type: "input",
       name: "projectRef",
       message: "Please enter your Supabase project ref:",
+      default: process.env.PROJECT_REF,
       validate: (input) => (input ? true : "Project ref cannot be empty."),
     },
     {
       type: "password",
       name: "dbPassword",
       message: "Please enter your database password:",
+      default: process.env.DB_PASSWORD,
       mask: "*",
       validate: (input) =>
         input ? true : "Database password cannot be empty.",

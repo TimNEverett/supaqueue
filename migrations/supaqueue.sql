@@ -13,13 +13,16 @@ ALTER TYPE "supaqueue"."job_status" OWNER TO "postgres";
 CREATE TABLE IF NOT EXISTS "supaqueue"."queue" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "api_url" "text" NOT NULL,
+    "edge_function_name" "text" NOT NULL,
     "default_headers" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL,
     "method" "text" DEFAULT 'POST'::"text" NOT NULL,
     "name" "text" DEFAULT ''::"text" NOT NULL
 );
 
 ALTER TABLE "supaqueue"."queue" OWNER TO "postgres";
+
+ALTER TABLE ONLY "supaqueue"."queue"
+    ADD CONSTRAINT "no_url" check ("edge_function_name" !~* '^https?://\\S+$'::text);
 
 CREATE TABLE IF NOT EXISTS "supaqueue"."job" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,

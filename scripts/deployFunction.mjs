@@ -26,8 +26,7 @@ function deploySupabaseFunction(functionName) {
 // Main function to run the script
 async function main() {
   try {
-    const functionName = "supaqueue"; // Replace with your function name if different
-    deploySupabaseFunction(functionName);
+    deploySupabaseFunction("supaqueue");
   } catch (error) {
     console.error("An error occurred:", error);
   }

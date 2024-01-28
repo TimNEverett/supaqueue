@@ -1,4 +1,4 @@
-import { createClient } from "supabase";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 import type { CurrentJob, Job, Queue } from "./_supaqueue/database.aliases.ts";
 
 console.log("Execute Current Job Function is running");
