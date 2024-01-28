@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS "supaqueue"."queue" (
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "edge_function_name" "text" NOT NULL,
     "default_headers" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL,
-    "method" "text" DEFAULT 'POST'::"text" NOT NULL,
     "name" "text" DEFAULT ''::"text" NOT NULL
 );
 
