@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
-import type { CurrentJob, Job, Queue } from "./_supaqueue/database.aliases.ts";
+import { Tables } from "./_supaqueue/database.types.ts";
 
 console.log("Execute Current Job Function is running");
 
@@ -23,26 +23,23 @@ Deno.serve(async (req) => {
     );
 
     const { current_job, job, queue } = (await req.json()) as {
-      current_job: CurrentJob;
-      job: Job;
-      queue: Queue;
+      current_job: Tables<"current_job">;
+      job: Tables<"job">;
+      queue: Tables<"queue">;
     };
 
     let success;
     try {
-      let url = queue.api_url;
-      if (queue.method == "GET") {
-        Object.entries(new Object(job.payload)).forEach(([key, value], idx) => {
-          url += `${idx == 0 ? "?" : "&"}${key}=${value}`;
-        });
-      }
+      const url = `https://${Deno.env.get("SUPABASE_URL")}/functions/v1/${
+        queue.edge_function_name
+      }`;
       const resp = await fetch(url, {
-        method: queue.method,
+        method: "POST",
         headers: {
           ...Object(queue.default_headers),
           Authorization: `Bearer ${serviceRoleKey}`,
         },
-        body: queue.method == "POST" ? JSON.stringify(job.payload) : undefined,
+        body: JSON.stringify(job.payload),
       });
       const status = resp.status;
       console.log(
