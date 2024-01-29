@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS "supaqueue"."job" (
     "queue" "uuid" NOT NULL,
     "payload" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL,
     "attempts" integer DEFAULT 0 NOT NULL,
-    "status" "supaqueue"."job_status" DEFAULT 'pending'::"supaqueue"."job_status" NOT NULL,
+    "status" "supaqueue"."job_status" DEFAULT 'pending'::"supaqueue"."job_status",
     "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
 
