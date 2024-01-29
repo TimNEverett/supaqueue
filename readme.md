@@ -1,47 +1,39 @@
 # Supaqueue
 
-## Overview
+Supaqueue provides a controlled means of calling edge functions in your supabase backend. This is very useful for edge function workloads that are "spiky" or are subject to rate limiting.
 
-Supaqueue enables the queueing of edge function calls in your supabase project. The goal is to provide a controlled means of calling edge functions in your supabase backend, giving consistent behaviour.
-
-#### Key Features:
+Key Features:
 
 - queues (calls to an edge function)
 - workers (number of workers determines number of concurrent calls in a queue)
 - automatic retries
 - create processing pipelines (using the job dependencies add-on)
 
-#### Supaqueue is incredibly useful when:
+Supaqueue consists of:
 
-- your edge functions rely on 3rd party APIs and you risk ratelimiting
-- your edge function workload sizes are hard to predict, or vary greatly based on user actions.
-- you need to run your edge functions in a particular order.
+1. the supaqueue schema defined in the `supaqueue.sql` file.
 
-#### This project consists of:
+2. a supaqueue secret that is added to your project's vault, used to ensure only your supabase backend can use the `supaqueue` edge function.
 
-- the supaqueue schema defined in the `supaqueue.sql` file.
+3. the `supaqueue` supabase edge function
 
-- a supaqueue secret that is added to your project's vault.
+### `Supaqueue.sql`
 
-- the `supaqueue` supabase edge function
+A migration file that installs the 'supaqueue' schema.
 
-### The Supaqueue Schema and `Supaqueue.sql` File
+There is also one public postgres function called `end_current_job` that is used by the edge function to mark the job as complete.
 
-This file adds all tables, functions, triggers and enumerated types to your project. These entities are all added under the 'supaqueue' schema to keep them isolated. There is also one public postgres function called `end_current_job` that is used by the edge function to mark the job as complete.
+_Note: that the only the `postgres`, and `service_role` roles are granted priveleges to this schema which means by default the supabase fe client cannot interact with supaque directly._
 
-Note: that the only the `postgres`, and `service_role` roles are granted priveleges to this schema which means by default the supabase fe client cannot interact with supaque directly.
+### The `supaqueue` edge function
 
-### The `supaqueue` Edge Function
+The `supaqueue` edge function makes a call to your edge function along with updating the status of the current_job table and tracking whether the edge function call returned successful or not.
 
-This edge function is deployed to your project. The function formats the information from the relevant tables to make an edge function call defined in the queue. It also updates the status of the current_job table and captures if the edge function call was successful or not.
-
-NOTE: the `supabase service role key` is by default added as a bearer token when calling your edge function. This means if your edge function uses that token to instantiate a supabase client, it will bypass RLS.
+_Note: the `supabase service role key` is by default added as a bearer token when calling your edge function. This means if your edge function uses that token to instantiate a supabase client, it will bypass RLS._
 
 ## Installation
 
-#### Instructions
-
-1. Clone the supaqueue repo
+1. Clone the supaqueue repo locally
 2. Install dependencies
 
 ```bash
@@ -69,7 +61,7 @@ pnpm supaqueue:install # or yarn supaqueue:install
 - a secret in your vault called `supaqueue_secret`
 - a corresponding secret in your edge Deno env variables called `SUPAQUEUE_SECRET`
 
-#### Explanation
+#### What is added to my supabase project?
 
 The `pnpm supaqueue:install` command will do the following:
 
@@ -110,7 +102,7 @@ This command will:
 2. Remove the supaqueue secret from the vault
 3. Delete the supaqueue edge function.
 
-## How the queue works
+## Supaqueue Explanation
 
 ### The Queue
 
