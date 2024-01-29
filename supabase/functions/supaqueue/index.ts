@@ -12,15 +12,13 @@ Deno.serve(async (req) => {
     }
 
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const supabaseURL = Deno.env.get("SUPABASE_URL");
 
-    if (!serviceRoleKey) {
-      throw new Error("Invalid Supabase service role key");
-    }
+    if (!supabaseURL) throw Error("Invalid Supabase URL");
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      serviceRoleKey
-    );
+    if (!serviceRoleKey) throw new Error("Invalid Supabase service role key");
+
+    const supabase = createClient(supabaseURL, serviceRoleKey);
 
     const { current_job, job, queue } = (await req.json()) as {
       current_job: Tables<"current_job">;
@@ -30,7 +28,7 @@ Deno.serve(async (req) => {
 
     let success;
     try {
-      const url = `https://${Deno.env.get("SUPABASE_URL")}/functions/v1/${
+      const url = `${Deno.env.get("SUPABASE_URL")}/functions/v1/${
         queue.edge_function_name
       }`;
       const resp = await fetch(url, {
