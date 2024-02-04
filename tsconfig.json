@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ESNext",
+    /* Modules */
+    "module": "NodeNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Type Checking */
+    "strict": true,
+    "skipLibCheck": true,
+    "moduleResolution": "nodenext",
+    "outDir": "dist"
+  },
+  "include": ["scripts/"],
+  "exclude": ["node_modules/**", "supabase/**", "dist"]
+}

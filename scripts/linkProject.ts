@@ -13,7 +13,8 @@ async function promptForProjectDetails() {
       name: "projectRef",
       message: "Please enter your Supabase project ref:",
       default: process.env.PROJECT_REF,
-      validate: (input) => (input ? true : "Project ref cannot be empty."),
+      validate: (input: string) =>
+        input ? true : "Project ref cannot be empty.",
     },
     {
       type: "password",
@@ -21,7 +22,7 @@ async function promptForProjectDetails() {
       message: "Please enter your database password:",
       default: process.env.DB_PASSWORD,
       mask: "*",
-      validate: (input) =>
+      validate: (input: string) =>
         input ? true : "Database password cannot be empty.",
     },
   ];
@@ -29,7 +30,7 @@ async function promptForProjectDetails() {
 }
 
 // Function to link the Supabase project using the provided project ref and database password
-function linkSupabaseProject(projectRef, dbPassword) {
+function linkSupabaseProject(projectRef: string, dbPassword: string) {
   const command = `supabase link --project-ref=${projectRef} --password=${dbPassword}`;
   exec(command, (error, stdout, stderr) => {
     if (error) {

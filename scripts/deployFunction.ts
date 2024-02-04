@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Function to deploy the Supabase Edge Function
-function deploySupabaseFunction(functionName) {
+function deploySupabaseFunction(functionName: string) {
   const command = `supabase functions deploy ${functionName}`;
   exec(command, (error, stdout, stderr) => {
     if (error) {

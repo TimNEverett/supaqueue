@@ -4,22 +4,25 @@
   "description": "Batteries-included edge function queuing for Supabase",
   "main": "index.js",
   "scripts": {
-    "supaqueue:install": "node scripts/linkProject.mjs && node scripts/generateAndSetSecret.mjs && node scripts/getAnonKey.mjs && node scripts/applyMigrations.mjs && node scripts/applySecretMigration.mjs && node scripts/deployFunction.mjs",
-    "supaqueue:install:job_dependencies": "node scripts/applyJobDependenciesMigration.mjs",
-    "supaqueue:remove": "node scripts/removeSupaqueue.mjs",
-    "supaqueue:link": "node scripts/linkProject.mjs"
+    "supaqueue:install": "tsc && node dist/linkProject.js && node dist/generateAndSetSecret.js && node dist/getAnonKey.js && node dist/applyMigrations.js && node dist/applySecretMigration.js && node dist/deployFunction.js",
+    "supaqueue:install:job_dependencies": "tsc && node dist/applyJobDependenciesMigration.js",
+    "supaqueue:remove": "tsc && node dist/removeSupaqueue.js",
+    "supaqueue:link": "tsc && node dist/linkProject.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@types/pg": "^8.11.0",
     "chalk": "^5.3.0",
     "dotenv": "^16.3.1",
     "inquirer": "^9.2.12",
     "npm-run-all": "^4.1.5",
     "ora": "^7.0.1",
     "pg": "^8.11.3",
-    "supabase": "^1.113.2"
+    "supabase": "^1.113.2",
+    "typescript": "^5.3.3"
   }
 }

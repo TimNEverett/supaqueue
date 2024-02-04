@@ -8,7 +8,7 @@ function generateSecret() {
 }
 
 // Function to set the secret in the Supabase project
-function setSupabaseSecret(secret) {
+function setSupabaseSecret(secret: string) {
   const command = `supabase secrets set SUPAQUEUE_SECRET=${secret}`;
   exec(command, (error, stdout, stderr) => {
     if (error) {

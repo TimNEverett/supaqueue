@@ -2,8 +2,8 @@ import { exec } from "child_process";
 import fs from "fs/promises";
 
 // Function to get the Supabase project API keys
-function getSupabaseApiKeys() {
-  return new Promise((resolve, reject) => {
+const getSupabaseApiKeys = async () => {
+  return new Promise<string>((resolve, reject) => {
     exec("supabase projects api-keys", (error, stdout, stderr) => {
       if (error) {
         reject(`Error retrieving API keys: ${error.message}`);
@@ -16,10 +16,10 @@ function getSupabaseApiKeys() {
       resolve(stdout);
     });
   });
-}
+};
 
 // Function to parse the stdout to find the anon key
-function parseAnonKey(apiKeysOutput) {
+function parseAnonKey(apiKeysOutput: string) {
   const lines = apiKeysOutput.split("\n");
   const anonKeyLine = lines.find((line) => line.includes("anon"));
   if (!anonKeyLine) {
