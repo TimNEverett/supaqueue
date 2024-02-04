@@ -1,15 +1,9 @@
 import fs from "fs/promises";
-import pg from "pg";
 import dotenv from "dotenv";
+import { getPgClient } from "./getPgClient.js";
 // Load environment variables from .env file
 dotenv.config();
-const client = new pg.Client({
-    host: `db.${process.env.PROJECT_REF}.supabase.co`,
-    port: 5432,
-    database: "postgres",
-    user: "postgres",
-    password: process.env.DB_PASSWORD,
-});
+const client = getPgClient();
 // Function to read and replace the placeholder in the SQL file
 async function prepareSqlFile(filePath) {
     const sqlContent = await fs.readFile(filePath, "utf8");
