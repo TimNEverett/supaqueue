@@ -32,4 +32,4 @@ async function main() {
         console.error("An error occurred:", error);
     }
 }
-main();
+await main();

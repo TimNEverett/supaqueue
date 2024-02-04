@@ -4,7 +4,7 @@ import fs from "fs/promises";
 import dotenv from "dotenv";
 dotenv.config();
 // Function to prompt the user for the project reference and database password
-async function promptForProjectDetails() {
+function promptForProjectDetails() {
     const questions = [
         {
             type: "input",
@@ -50,4 +50,4 @@ async function main() {
         console.error("An error occurred:", error);
     }
 }
-main();
+await main();

@@ -35,6 +35,7 @@ async function main() {
     const apiKeysOutput = await getSupabaseApiKeys();
     const anonKey = parseAnonKey(apiKeysOutput);
     console.log(`Anon key retrieved: ${anonKey}`);
+    // eslint-disable-next-line no-control-regex
     const sanitizedAnonKey = anonKey.replace(/\u001b\[.*?m/g, "");
 
     // Add to the .env file with the sanitized anon key
@@ -47,4 +48,4 @@ async function main() {
   }
 }
 
-main();
+await main();

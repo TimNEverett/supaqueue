@@ -1,0 +1,6 @@
+.eslintrc.cjs
+dist/
+supabase/
+node_modules/
+migrations/
+add-ons/

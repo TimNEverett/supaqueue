@@ -27,7 +27,7 @@ async function applySql(sqlContent: string) {
     await client.query(sqlContent);
     console.log("Secret migration applied successfully.");
   } catch (error) {
-    console.error(`Error applying secret migration: ${error}`);
+    console.error(`Error applying secret migration:`, error);
   } finally {
     await client.end();
   }
@@ -47,4 +47,4 @@ async function main() {
   }
 }
 
-main();
+await main();

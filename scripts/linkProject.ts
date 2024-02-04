@@ -5,8 +5,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+type PromptAnswers = {
+  projectRef: string;
+  dbPassword: string;
+};
+
 // Function to prompt the user for the project reference and database password
-async function promptForProjectDetails() {
+function promptForProjectDetails() {
   const questions = [
     {
       type: "input",
@@ -26,7 +31,7 @@ async function promptForProjectDetails() {
         input ? true : "Database password cannot be empty.",
     },
   ];
-  return inquirer.prompt(questions);
+  return inquirer.prompt<PromptAnswers>(questions);
 }
 
 // Function to link the Supabase project using the provided project ref and database password
@@ -62,4 +67,4 @@ async function main() {
   }
 }
 
-main();
+await main();

@@ -28,7 +28,7 @@ async function applySql(sqlContent) {
         console.log("Migrations applied successfully.");
     }
     catch (error) {
-        console.error(`Error applying migrations: ${error}`);
+        console.error(`Error applying migrations:`, error);
     }
     finally {
         await client.end();
@@ -48,4 +48,4 @@ async function main() {
         console.error("An error occurred:", error);
     }
 }
-main();
+await main();

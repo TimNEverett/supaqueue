@@ -24,7 +24,7 @@ function deploySupabaseFunction(functionName: string) {
 }
 
 // Main function to run the script
-async function main() {
+function main() {
   try {
     deploySupabaseFunction("supaqueue");
   } catch (error) {

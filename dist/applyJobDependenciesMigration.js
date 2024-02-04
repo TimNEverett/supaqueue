@@ -12,7 +12,7 @@ const client = new pg.Client({
 });
 // Function to read and replace the placeholder in the SQL file
 async function prepareSqlFile(filePath) {
-    let sqlContent = await fs.readFile(filePath, "utf8");
+    const sqlContent = await fs.readFile(filePath, "utf8");
     return sqlContent;
 }
 // Function to apply the SQL to the Supabase database
@@ -23,7 +23,7 @@ async function applySql(sqlContent) {
         console.log("job_dependencies migration applied successfully.");
     }
     catch (error) {
-        console.error(`Error applying job_dependencies migration: ${error}`);
+        console.error("Error applying job_dependencies migration:", error);
     }
     finally {
         await client.end();
@@ -39,4 +39,4 @@ async function main() {
         console.error("An error occurred:", error);
     }
 }
-main();
+await main();

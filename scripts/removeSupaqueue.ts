@@ -21,7 +21,7 @@ async function applySql(sqlContent: string) {
     await client.query(sqlContent);
     console.log("Migrations applied successfully.");
   } catch (error) {
-    console.error(`Error applying migrations: ${error}`);
+    console.error(`Error applying migrations:`, error);
   } finally {
     await client.end();
   }
@@ -30,34 +30,39 @@ async function applySql(sqlContent: string) {
 async function deleteSupabaseFunction(functionName: string) {
   const command = `supabase functions delete ${functionName}`;
   console.log("running", command);
-  await exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(
-        `Error deleting function ${functionName}: ${error.message}`
-      );
-      return;
-    }
-    // Log standard error output as a warning instead of an error
-    if (stderr) {
-      console.warn(`Warning: ${stderr}`);
-    }
-    // Log standard output and confirm deployment
-    console.log(`Function ${functionName} deleted successfully:\n${stdout}`);
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(
+          `Error deleting function ${functionName}: ${error.message}`
+        );
+        reject(error);
+      }
+      // Log standard error output as a warning instead of an error
+      if (stderr) {
+        console.warn(`Warning: ${stderr}`);
+      }
+      // Log standard output and confirm deployment
+      console.log(`Function ${functionName} deleted successfully:\n${stdout}`);
+      resolve(stdout);
+    });
   });
 }
 
 async function removeSupabaseSecret() {
   const command = `supabase secrets unset SUPAQUEUE_SECRET`;
-  await exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error removing secret: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`Error: ${stderr}`);
-      return;
-    }
-    console.log(`Secret successfully removed:\n${stdout}`);
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error removing secret: ${error.message}`);
+        reject;
+      }
+      if (stderr) {
+        console.error(`Error: ${stderr}`);
+      }
+      console.log(`Secret successfully removed:\n${stdout}`);
+      resolve(stdout);
+    });
   });
 }
 
@@ -68,12 +73,12 @@ async function main() {
     const removeSQL = await fs.readFile("migrations/remove.sql", "utf8");
     await applySql(removeSQL);
     // remove supaqueue edge function
-    deleteSupabaseFunction("supaqueue");
+    await deleteSupabaseFunction("supaqueue");
     // remove supaqueue edge function secret
-    removeSupabaseSecret();
+    await removeSupabaseSecret();
   } catch (error) {
     console.error("An error occurred:", error);
   }
 }
 
-main();
+await main();

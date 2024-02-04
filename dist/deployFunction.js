@@ -19,7 +19,7 @@ function deploySupabaseFunction(functionName) {
     });
 }
 // Main function to run the script
-async function main() {
+function main() {
     try {
         deploySupabaseFunction("supaqueue");
     }
